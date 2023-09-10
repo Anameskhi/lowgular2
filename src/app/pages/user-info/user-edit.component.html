@@ -2,10 +2,10 @@
   <mat-icon>home</mat-icon>
 </button><br><br>
 <h1>{{ (getCurrUsr$ | async)?.name }} {{ (getCurrUsr$ | async)?.surname }}</h1>
-<form class="example-form">
+<form [formGroup]="form" class="example-form" (submit)="submit()">
   <mat-form-field class="example-full-width">
     <mat-label>Name</mat-label>
-    <input type="text" matInput placeholder="Enter Your Name">
+    <input type="text" matInput placeholder="Enter Your Name" formControlName="name">
     <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
         Please enter a valid email address
       </mat-error> -->
@@ -16,7 +16,7 @@
 
   <mat-form-field class="example-full-width">
     <mat-label>Surname</mat-label>
-    <input type="text" matInput placeholder="Enter Your Surname">
+    <input type="text" matInput placeholder="Enter Your Surname" formControlName="surname">
     <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
           Please enter a valid email address
         </mat-error> -->
@@ -27,7 +27,7 @@
 
   <mat-form-field class="example-full-width">
     <mat-label>Email</mat-label>
-    <input type="email" matInput placeholder="Ex. pat@example.com">
+    <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email">
     <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
           Please enter a valid email address
         </mat-error> -->
@@ -38,14 +38,18 @@
 
   <mat-form-field>
     <mat-label>Client Status</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let status of getClientStatus$ | async">
+    <mat-select formControlName="statusId">
+      <mat-option *ngFor="let status of getClientStatus$ | async" [value]="status.id">
         {{status.name}}
       </mat-option>
     </mat-select>
   </mat-form-field><br>
 
-  <mat-checkbox *ngFor="let skill of getSkills$ | async"  >{{skill.name}}</mat-checkbox><br><br>
-      
+  <mat-checkbox *ngFor="let skill of getSkills$ | async; let i = index"
+              [value]="skill.id"
+              [checked]="isChecked(skill.id)"
+              (change)="toggleSkill(skill.id)">
+  {{ skill.name }}
+</mat-checkbox><br>      
       <button mat-raised-button color="primary">Submit</button>
 </form>

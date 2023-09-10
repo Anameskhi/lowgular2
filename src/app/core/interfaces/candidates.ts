@@ -1,4 +1,4 @@
-import { ISkillId } from "./skill_Ids"
+import { ISkill } from "./skill_Ids"
 
 export interface iCandidates {
   id: string  
@@ -6,5 +6,5 @@ export interface iCandidates {
   surname: string
   email: string
   statusId: string
-  skillIds: ISkillId[]
+  skillIds: ISkill[]
 }

@@ -1,5 +1,5 @@
 <div class="text-style" *ngFor="let user of getAllCandidates$ | async">{{user.name}} {{user.surname}}
-    <button routerLink="/candidates/{{user.id}}" mat-fab class="custom-icon-button" aria-label="Example icon button with a bookmark icon">
+    <button routerLink="/candidates/{{user.id}}" mat-fab aria-label="Example icon button with a bookmark icon">
         <mat-icon>edit</mat-icon>
       </button>
 </div>

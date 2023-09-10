@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { iCandidates } from '../interfaces/candidates';
 import { IStatus } from '../interfaces/status';
-import { ISkillId } from '../interfaces/skill_Ids';
+import { ISkill } from '../interfaces/skill_Ids';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidatesService extends BaseService {
+
+  usrSub$:Subject<iCandidates> = new Subject<iCandidates>()
 
   getAllUsers():Observable<iCandidates[]>{
     return this.get('candidates')
@@ -22,8 +24,12 @@ export class CandidatesService extends BaseService {
     return this.get('client-statuses')
   }
 
-  getSkills():Observable<ISkillId[]>{
+  getSkills():Observable<ISkill[]>{
     return this.get('skills')
+  }
+
+  updateUser(userId:number,body: iCandidates):Observable<iCandidates>{
+    return this.put(`candidates/${userId}`, body)
   }
 
 }
