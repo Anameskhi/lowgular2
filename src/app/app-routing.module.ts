@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'candidates/:id',
-    loadChildren: () => import('./pages/user-info/user-edit.module').then(m => m.UserInfoModule)
+    loadChildren: () => import('./pages/user-edit/user-edit.module').then(m => m.UserInfoModule)
   }
 ];
 

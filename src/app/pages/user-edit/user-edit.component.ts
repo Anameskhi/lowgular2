@@ -1,25 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CandidatesService } from '../../core/services/candidates.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { iCandidates } from 'src/app/core/interfaces/candidates';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss']
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, OnDestroy {
   getCurrUsr$!: Observable<iCandidates>;
   getClientStatus$ = this.candidateSrvc.getClientStatus();
   getSkills$ = this.candidateSrvc.getSkills();
   currentId!: number;
+  unsubscribe$ = new Subject()
 
   constructor(
     private activateRoute: ActivatedRoute,
     private candidateSrvc: CandidatesService,
-    private router: Router
+    private router: Router,
+    private toastSrv: NgToastService
   ) {}
 
   form: FormGroup = new FormGroup({
@@ -45,6 +48,10 @@ export class UserEditComponent implements OnInit {
       });
     });
   }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(null),
+    this.unsubscribe$.complete()
+  }
 
   isChecked(skillId: string): boolean {
     const skillIdsFormArray = this.form.get('skillIds') as FormArray;
@@ -68,10 +75,11 @@ export class UserEditComponent implements OnInit {
     console.log(this.form.value);
     if(this.form.valid){
       this.candidateSrvc.updateUser(this.currentId, {...this.form.value})
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         this.form.reset();
         this.router.navigate(['candidates']);
-        // this.toastSrv.success({ detail: "Success Message", summary: "ToDo successfully updated", duration: 3000 })
+        this.toastSrv.success({ detail: "Success Message", summary: "User successfully updated", duration: 3000 })
       });
     }
   }

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AllUsersComponent } from './pages/all-users/all-users.component';
-import { UserEditComponent } from './pages/user-info/user-edit.component';
+import { UserEditComponent } from './pages/user-edit/user-edit.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule} from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { NgToastModule } from 'ng-angular-popup';
 
 
 
@@ -36,7 +37,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgToastModule
     
   ],
   providers: [],
